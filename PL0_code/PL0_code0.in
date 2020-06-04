@@ -1,0 +1,20 @@
+const a=10;
+var d,e,f;
+procedure p;
+var g;
+begin
+  d:=a*2;
+  e:=a/3;
+  if d<=e then f:=d+e
+end;
+begin
+  read(e,f);
+  write(e,f,d);
+  call p;
+  while odd f do
+  begin
+  	e:=-e+1;
+  	f:=f/3
+  end;
+  write(e,f,d)
+end.
