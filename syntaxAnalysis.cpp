@@ -577,6 +577,8 @@ void factors(syntaxTreeNode *nowNode,int lev)
 		else
 			error(syntaxError);
 	}
+	else
+		error(syntaxError);
 }
 
 //关系运算符
