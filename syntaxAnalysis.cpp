@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-//»ñµÃÓï·¨Ê÷,µİ¹é³ÌĞò
+//è·å¾—è¯­æ³•æ ‘,é€’å½’ç¨‹åº
 void getSyntaxTree(int level,syntaxTreeNode *nowNode)
 {
 	if(level>syntaxTree.size())
@@ -20,31 +20,31 @@ void showSyntaxTree()
 {
 	for(int i=0;i<syntaxTree.size();i++)
 	{
-		cout<<i+1<<"²ã£º"<<endl;
+		cout<<i+1<<"å±‚ï¼š"<<endl;
 		for(int j=0;j<syntaxTree[i].size();j++)
 			cout<<syntaxTree[i][j]<<" ";
 		cout<<endl;
 	}
 }
 
-//ÏÂÒ»¸öµ¥´Ê
+//ä¸‹ä¸€ä¸ªå•è¯
 void advance()
 {
 	binaryWord tmp = getSym();
-	lexTable.push_back(tmp);//°Ñ¶şÔªÊ½·ÅÈë´Ê·¨·ÖÎö½á¹û±í
-	lexTablePos++;//´íÎó´¦ÀíÊ¹ÓÃ
+	lexTable.push_back(tmp);//æŠŠäºŒå…ƒå¼æ”¾å…¥è¯æ³•åˆ†æç»“æœè¡¨
+	lexTablePos++;//é”™è¯¯å¤„ç†ä½¿ç”¨
 	//nowID = lexTable[lexTablePos++].category;
 	nowID = tmp.category;
 }
 
-//Óï·¨·ÖÎö³õÊ¼»¯
+//è¯­æ³•åˆ†æåˆå§‹åŒ–
 void syntaxInit()
 {
 	lexTablePos = 0;
 	advance();
 }
 
-//Æ¥Åä
+//åŒ¹é…
 bool match(int id)
 {
 	if(nowID == id)
@@ -55,12 +55,12 @@ bool match(int id)
 	return false;
 }
 
-//³ÌĞò
+//ç¨‹åº
 void prog(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(prog_FIRST,nowID))
 	{
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("·Ö³ÌĞò"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("åˆ†ç¨‹åº"));
 		subProg(nowNode->subTreeNode.back(),lev);
 		if(match(POI))
 		{
@@ -74,49 +74,49 @@ void prog(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//·Ö³ÌĞò,Õâ¸ö¾ÍÊÇblockº¯Êı
+//åˆ†ç¨‹åº,è¿™ä¸ªå°±æ˜¯blockå‡½æ•°
 void subProg(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(subProg_FIRST,nowID) || inFOLLOW(subProg_FOLLOW,nowID))
 	{
-		int curtx = tx;//³õÊ¼·ûºÅ±íÖ¸ÕëÖ¸Ïòµ±Ç°²ãµÄ·ûºÅÔÚ·ûºÅ±íÖĞµÄ¿ªÊ¼Î»ÖÃ
-		dx = 3;/*µØÖ·Ö¸Ê¾Æ÷¸ø³öÃ¿²ã¾Ö²¿Á¿µ±Ç°ÒÑ·ÖÅäµ½µÄÏà¶ÔÎ»ÖÃ¡£
-              ÖÃ³õÊ¼ÖµÎª3µÄÔ­ÒòÊÇ£ºÃ¿Ò»²ã×î¿ªÊ¼µÄÎ»ÖÃÓĞÈı¸ö¿Õ¼ä
-              ÓÃÓÚ´æ·Å¾²Ì¬Á´SL¡¢¶¯Ì¬Á´DLºÍ·µ»ØµØÖ·RA*/
-		int curcx = cx;//¼ÇÂ¼µ±Ç°Ö¸ÁîÎ»ÖÃ
-		gen(JMP,0,0);//²úÉúÒ»ĞĞÌø×ªÖ¸Áî£¬Ìø×ªÎ»ÖÃÔİÊ±Î´ÖªÌî0
+		int curtx = tx;//åˆå§‹ç¬¦å·è¡¨æŒ‡é’ˆæŒ‡å‘å½“å‰å±‚çš„ç¬¦å·åœ¨ç¬¦å·è¡¨ä¸­çš„å¼€å§‹ä½ç½®
+		dx = 3;/*åœ°å€æŒ‡ç¤ºå™¨ç»™å‡ºæ¯å±‚å±€éƒ¨é‡å½“å‰å·²åˆ†é…åˆ°çš„ç›¸å¯¹ä½ç½®ã€‚
+              ç½®åˆå§‹å€¼ä¸º3çš„åŸå› æ˜¯ï¼šæ¯ä¸€å±‚æœ€å¼€å§‹çš„ä½ç½®æœ‰ä¸‰ä¸ªç©ºé—´
+              ç”¨äºå­˜æ”¾é™æ€é“¾SLã€åŠ¨æ€é“¾DLå’Œè¿”å›åœ°å€RA*/
+		int curcx = cx;//è®°å½•å½“å‰æŒ‡ä»¤ä½ç½®
+		gen(JMP,0,0);//äº§ç”Ÿä¸€è¡Œè·³è½¬æŒ‡ä»¤ï¼Œè·³è½¬ä½ç½®æš‚æ—¶æœªçŸ¥å¡«0
 		if(inFIRST(constDscpSection_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("³£Á¿ËµÃ÷²¿·Ö"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å¸¸é‡è¯´æ˜éƒ¨åˆ†"));
 			constDscpSection(nowNode->subTreeNode.back(),lev);
 		}
 		if(inFIRST(varDscpSection_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±äÁ¿ËµÃ÷²¿·Ö"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å˜é‡è¯´æ˜éƒ¨åˆ†"));
 			varDscpSection(nowNode->subTreeNode.back(),lev);
 		}
-		int curdx = dx;//¼ÇÂ¼µ±Ç°µÄdx
+		int curdx = dx;//è®°å½•å½“å‰çš„dx
 		if(inFIRST(procDscpSection_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¹ı³ÌËµÃ÷²¿·Ö"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¿‡ç¨‹è¯´æ˜éƒ¨åˆ†"));
 			procDscpSection(nowNode->subTreeNode.back(),lev);
 		}
-		code[curcx].a = cx;//°ÑÇ°ÃæÉú³ÉµÄÌø×ªÓï¾äµÄÌø×ªÎ»ÖÃ¸Ä³Éµ±Ç°Î»ÖÃ
+		code[curcx].a = cx;//æŠŠå‰é¢ç”Ÿæˆçš„è·³è½¬è¯­å¥çš„è·³è½¬ä½ç½®æ”¹æˆå½“å‰ä½ç½®
 		if(curtx>0)
-		{//¼ÇÂ¼¹ı³ÌµÄÏà¹ØĞÅÏ¢
-			Table[curtx-1].address = cx;//ÔÚ·ûºÅ±íÖĞ¼ÇÂ¼µØÖ·Îªµ±Ç°´úÂë·ÖÅäµØÖ·
-			Table[curtx-1].size = dx;//ÔÚ·ûºÅ±íÖĞ¼ÇÂ¼³¤¶ÈÎªµ±Ç°Êı¾İ·ÖÅäÎ»ÖÃ
+		{//è®°å½•è¿‡ç¨‹çš„ç›¸å…³ä¿¡æ¯
+			Table[curtx-1].address = cx;//åœ¨ç¬¦å·è¡¨ä¸­è®°å½•åœ°å€ä¸ºå½“å‰ä»£ç åˆ†é…åœ°å€
+			Table[curtx-1].size = dx;//åœ¨ç¬¦å·è¡¨ä¸­è®°å½•é•¿åº¦ä¸ºå½“å‰æ•°æ®åˆ†é…ä½ç½®
 		}
-		gen(INT,0,curdx);//Éú³É·ÖÅä¿Õ¼äÖ¸Áî£¬·ÖÅädx¸ö¿Õ¼ä
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Óï¾ä"));
+		gen(INT,0,curdx);//ç”Ÿæˆåˆ†é…ç©ºé—´æŒ‡ä»¤ï¼Œåˆ†é…dxä¸ªç©ºé—´
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¯­å¥"));
 		statement(nowNode->subTreeNode.back(),lev);
-		gen(OPR,0,0);//Éú³É´Ó×Ó³ÌĞò·µ»Ø²Ù×÷Ö¸Áî
+		gen(OPR,0,0);//ç”Ÿæˆä»å­ç¨‹åºè¿”å›æ“ä½œæŒ‡ä»¤
 	}
 	else
 		error(syntaxError);
 }
 
-//³£Á¿ËµÃ÷²¿·Ö
+//å¸¸é‡è¯´æ˜éƒ¨åˆ†
 void constDscpSection(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(constDscpSection_FIRST,nowID))
@@ -128,13 +128,13 @@ void constDscpSection(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("³£Á¿¶¨Òå"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("å¸¸é‡å®šä¹‰"));
 		constDef(nowNode->subTreeNode.back(),lev);
 		while(match(COM))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(","));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("³£Á¿¶¨Òå"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å¸¸é‡å®šä¹‰"));
 			constDef(nowNode->subTreeNode.back(),lev);
 		}
 		if(match(SEM))
@@ -149,13 +149,13 @@ void constDscpSection(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//³£Á¿¶¨Òå
+//å¸¸é‡å®šä¹‰
 void constDef(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(constDef_FIRST,nowID))
 	{
-		string numName = symTable[lexTable.back().attribute];//¼ÇÂ¼±êÊ¶·ûÃû
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+		string numName = symTable[lexTable.back().attribute];//è®°å½•æ ‡è¯†ç¬¦å
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 		identifier(nowNode->subTreeNode.back());
 		if(match(EQU))
 		{
@@ -164,23 +164,23 @@ void constDef(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		int constNum = stoi(constTable[lexTable.back().attribute]);//¼ÇÂ¼³£Á¿Öµ
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("ÎŞ·ûºÅÕûÊı"));
+		int constNum = stoi(constTable[lexTable.back().attribute]);//è®°å½•å¸¸é‡å€¼
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ— ç¬¦å·æ•´æ•°"));
 		unsignedInt(nowNode->subTreeNode.back());
-		enter(Table,numName,symConst,lev,constNum);//³£Á¿Èë±í
+		enter(Table,numName,symConst,lev,constNum);//å¸¸é‡å…¥è¡¨
 	}
 	else
 		error(syntaxError);
 }
 
-//ÎŞ·ûºÅÕûÊı
+//æ— ç¬¦å·æ•´æ•°
 void unsignedInt(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(unsignedInt_FIRST,nowID))
 	{
 		if(match(CONS))
 		{
-			int entry = lexTable[lexTablePos-1].attribute;//³£Á¿±íÈë¿Ú
+			int entry = lexTable[lexTablePos-1].attribute;//å¸¸é‡è¡¨å…¥å£
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(constTable[entry]));
 			advance();
 		}
@@ -191,7 +191,7 @@ void unsignedInt(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//±äÁ¿ËµÃ÷²¿·Ö
+//å˜é‡è¯´æ˜éƒ¨åˆ†
 void varDscpSection(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(varDscpSection_FIRST,nowID))
@@ -203,18 +203,18 @@ void varDscpSection(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		string symName = symTable[lexTable.back().attribute];//¼ÇÂ¼±êÊ¶·ûÃû
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+		string symName = symTable[lexTable.back().attribute];//è®°å½•æ ‡è¯†ç¬¦å
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 		identifier(nowNode->subTreeNode.back());
-		enter(Table,symName,symVar,lev);//±äÁ¿Èë±í
+		enter(Table,symName,symVar,lev);//å˜é‡å…¥è¡¨
 		while(match(COM))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(","));
 			advance();
-			string symName = symTable[lexTable.back().attribute];//¼ÇÂ¼±êÊ¶·ûÃû
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+			string symName = symTable[lexTable.back().attribute];//è®°å½•æ ‡è¯†ç¬¦å
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 			identifier(nowNode->subTreeNode.back());
-			enter(Table,symName,symVar,lev);//±äÁ¿Èë±í
+			enter(Table,symName,symVar,lev);//å˜é‡å…¥è¡¨
 		}
 		if(match(SEM))
 		{
@@ -227,14 +227,14 @@ void varDscpSection(syntaxTreeNode *nowNode,int lev)
 	
 }
 
-//±êÊ¶·û
+//æ ‡è¯†ç¬¦
 void identifier(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(identifier_FIRST,nowID))
 	{
 		if(match(SYM))
 		{
-			int entry = lexTable[lexTablePos-1].attribute;//±êÊ¶·û±íÈë¿Ú
+			int entry = lexTable[lexTablePos-1].attribute;//æ ‡è¯†ç¬¦è¡¨å…¥å£
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(symTable[entry]));
 			advance();
 		}
@@ -245,14 +245,14 @@ void identifier(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//¹ı³ÌËµÃ÷²¿·Ö
+//è¿‡ç¨‹è¯´æ˜éƒ¨åˆ†
 void procDscpSection(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(procDscpSection_FIRST,nowID))
 	{
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("¹ı³ÌÊ×²¿"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¿‡ç¨‹é¦–éƒ¨"));
 		procHeader(nowNode->subTreeNode.back(),lev);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("·Ö³ÌĞò"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("åˆ†ç¨‹åº"));
 		subProg(nowNode->subTreeNode.back(),lev+1);
 		if(match(SEM))
 		{
@@ -263,7 +263,7 @@ void procDscpSection(syntaxTreeNode *nowNode,int lev)
 			error(syntaxError);
 		if(inFIRST(procDscpSection_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¹ı³ÌËµÃ÷²¿·Ö"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¿‡ç¨‹è¯´æ˜éƒ¨åˆ†"));
 			procDscpSection(nowNode->subTreeNode.back(),lev);
 		}
 	}
@@ -271,22 +271,22 @@ void procDscpSection(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//¹ı³ÌÊ×²¿
+//è¿‡ç¨‹é¦–éƒ¨
 void procHeader(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(procHeader_FIRST,nowID))
 	{
 		if(match(PROC))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("procdure"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("procedure"));
 			advance();
 		}
 		else
 			error(syntaxError);
-		string procName = symTable[lexTable.back().attribute];//¼ÇÂ¼±êÊ¶·ûÃû
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+		string procName = symTable[lexTable.back().attribute];//è®°å½•æ ‡è¯†ç¬¦å
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 		identifier(nowNode->subTreeNode.back());
-		enter(Table,procName,symProc,lev);//¹ı³ÌÈë±í
+		enter(Table,procName,symProc,lev);//è¿‡ç¨‹å…¥è¡¨
 		if(match(SEM))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(";"));
@@ -299,49 +299,49 @@ void procHeader(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//Óï¾ä
+//è¯­å¥
 void statement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(statement_FIRST,nowID) || inFOLLOW(statement_FOLLOW,nowID))
 	{
 		if(inFIRST(assiStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¸³ÖµÓï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("èµ‹å€¼è¯­å¥"));
 			assiStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else if(inFIRST(condStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("Ìõ¼şÓï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("æ¡ä»¶è¯­å¥"));
 			condStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else if(inFIRST(loopStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("µ±ĞÍÑ­»·Óï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å½“å‹å¾ªç¯è¯­å¥"));
 			loopStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else if(inFIRST(procCallStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¹ı³Ìµ÷ÓÃÓï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¿‡ç¨‹è°ƒç”¨è¯­å¥"));
 			procCallStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else if(inFIRST(readStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¶ÁÓï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¯»è¯­å¥"));
 			readStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else if(inFIRST(writeStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("Ğ´Óï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å†™è¯­å¥"));
 			writeStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else if(inFIRST(compStatement_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¸´ºÏÓï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å¤åˆè¯­å¥"));
 			compStatement(nowNode->subTreeNode.back(),lev);
 		}
 		else//null
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¿Õ"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("ç©º"));
 			return;
 		}
 	}
@@ -349,7 +349,7 @@ void statement(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//¸³ÖµÓï¾ä
+//èµ‹å€¼è¯­å¥
 void assiStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(assiStatement_FIRST,nowID))
@@ -357,10 +357,10 @@ void assiStatement(syntaxTreeNode *nowNode,int lev)
 		string name = symTable[lexTable.back().attribute];
 		int pos = position(name,lev);
 		if(pos == -1)
-			error(undefinedVariable);//Î´¶¨ÒåµÄ±äÁ¿
+			error(undefinedVariable);//æœªå®šä¹‰çš„å˜é‡
 		if(Table[pos].kind != symVar)
-			error(notVariable);//¸Ã±êÊ¶·û²»ÊÇ±äÁ¿
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+			error(notVariable);//è¯¥æ ‡è¯†ç¬¦ä¸æ˜¯å˜é‡
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 		identifier(nowNode->subTreeNode.back());
 		if(match(ASSI))
 		{
@@ -369,15 +369,15 @@ void assiStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 		expressions(nowNode->subTreeNode.back(),lev);
-		gen(STO,lev - Table[pos].level,Table[pos].address);//Éú³ÉSTOÖ¸Áî
+		gen(STO,lev - Table[pos].level,Table[pos].address);//ç”ŸæˆSTOæŒ‡ä»¤
 	}
 	else
 		error(syntaxError);
 }
 
-//¸´ºÏÓï¾ä
+//å¤åˆè¯­å¥
 void compStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(compStatement_FIRST,nowID))
@@ -389,13 +389,13 @@ void compStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Óï¾ä"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¯­å¥"));
 		statement(nowNode->subTreeNode.back(),lev);
 		while(match(SEM))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(";"));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("Óï¾ä"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¯­å¥"));
 			statement(nowNode->subTreeNode.back(),lev);
 		}
 		if(match(END))
@@ -410,52 +410,52 @@ void compStatement(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//Ìõ¼ş
+//æ¡ä»¶
 void conditions(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(conditions_FIRST,nowID))
 	{
 		if(inFIRST(expressions_FIRST,nowID))
 		{
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 			expressions(nowNode->subTreeNode.back(),lev);
 			int op = nowID;
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("¹ØÏµÔËËã·û"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å…³ç³»è¿ç®—ç¬¦"));
 			relaOp(nowNode->subTreeNode.back());
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 			expressions(nowNode->subTreeNode.back(),lev);
 			switch(op)
 			{
 				case EQU:
-					gen(OPR,0,8);//=£º²úÉú8ºÅÅĞµÈÖ¸Áî
+					gen(OPR,0,8);//=ï¼šäº§ç”Ÿ8å·åˆ¤ç­‰æŒ‡ä»¤
 					break;
 				case NEQU1:	
 				case NEQU2:
-					gen(OPR,0,9);//<>»ò#£º²úÉú9ºÅÅĞ²»µÈÖ¸Áî
+					gen(OPR,0,9);//<>æˆ–#ï¼šäº§ç”Ÿ9å·åˆ¤ä¸ç­‰æŒ‡ä»¤
 					break;
 				case LES:
-					gen(OPR,0,10);//<£º²úÉú10ºÅÅĞĞ¡Ö¸Áî
+					gen(OPR,0,10);//<ï¼šäº§ç”Ÿ10å·åˆ¤å°æŒ‡ä»¤
 					break;
 				case LARE:
-					gen(OPR, 0, 11);//>=£º²úÉú11ºÅÅĞ²»Ğ¡ÓÚÖ¸Áî
+					gen(OPR, 0, 11);//>=ï¼šäº§ç”Ÿ11å·åˆ¤ä¸å°äºæŒ‡ä»¤
 					break;
 				case LAR:
-					gen(OPR, 0, 12);//>£º²úÉú12ºÅÅĞ´óÓÚÖ¸Áî
+					gen(OPR, 0, 12);//>ï¼šäº§ç”Ÿ12å·åˆ¤å¤§äºæŒ‡ä»¤
 					break;
 				case LESE:
-					gen(OPR,0,13);//<=£º²úÉú13ºÅÅĞ²»´óÓÚÖ¸Áî
+					gen(OPR,0,13);//<=ï¼šäº§ç”Ÿ13å·åˆ¤ä¸å¤§äºæŒ‡ä»¤
 					break;
 				default:
-					error(wrongRelaOperator);//´íÎóµÄ¹ØÏµÔËËã·û
+					error(wrongRelaOperator);//é”™è¯¯çš„å…³ç³»è¿ç®—ç¬¦
 			}
 		}
 		else if(match(ODD))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode("odd"));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 			expressions(nowNode->subTreeNode.back(),lev);
-			gen(OPR,0,6);//Éú³É6ºÅ²Ù×÷Ö¸Áî£¬ÆæÅ¼ÅĞ¶ÏÔËËã
+			gen(OPR,0,6);//ç”Ÿæˆ6å·æ“ä½œæŒ‡ä»¤ï¼Œå¥‡å¶åˆ¤æ–­è¿ç®—
 		}
 		else
 			error(syntaxError);
@@ -464,12 +464,12 @@ void conditions(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//±í´ïÊ½
+//è¡¨è¾¾å¼
 void expressions(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(expressions_FIRST,nowID))
 	{
-		bool flag = false;//±í´ïÊ½ÊÇ·ñÓÉ¸ººÅ¿ªÍ·
+		bool flag = false;//è¡¨è¾¾å¼æ˜¯å¦ç”±è´Ÿå·å¼€å¤´
 		if(match(ADD))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode("+"));
@@ -481,58 +481,58 @@ void expressions(syntaxTreeNode *nowNode,int lev)
 			advance();
 			flag = true;
 		}
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Ïî"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("é¡¹"));
 		items(nowNode->subTreeNode.back(),lev);
-		if(flag)//±í´ïÊ½ÊÇ¸ººÅ¿ªÍ·µÄ
-			gen(OPR,0,1);//Éú³ÉÒ»Ìõ1ºÅ²Ù×÷Ö¸Áî£¬È¡·´ÔËËã
+		if(flag)//è¡¨è¾¾å¼æ˜¯è´Ÿå·å¼€å¤´çš„
+			gen(OPR,0,1);//ç”Ÿæˆä¸€æ¡1å·æ“ä½œæŒ‡ä»¤ï¼Œå–åè¿ç®—
 		while(match(ADD) || match(SUB))
 		{
-			int op = nowID;//±£´æÔËËã·û
+			int op = nowID;//ä¿å­˜è¿ç®—ç¬¦
 			if(match(ADD))
 				nowNode->subTreeNode.push_back(new syntaxTreeNode("+"));
 			else if(match(SUB))
 				nowNode->subTreeNode.push_back(new syntaxTreeNode("-"));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("Ïî"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("é¡¹"));
 			items(nowNode->subTreeNode.back(),lev);
-			if(op == ADD)//Èç¹ûÏîÓëÏîÖ®¼äµÄÔËËã·ûÊÇ¼ÓºÅ
-				gen(OPR,0,2);//Éú³É2ºÅ²Ù×÷Ö¸Áî£¬¼Ó·¨
-			else//·ñÔòÊÇ¼õ·¨
-				gen(OPR,0,3);//Éú³É3ºÅ²Ù×÷Ö¸Áî£¬¼õ·¨
+			if(op == ADD)//å¦‚æœé¡¹ä¸é¡¹ä¹‹é—´çš„è¿ç®—ç¬¦æ˜¯åŠ å·
+				gen(OPR,0,2);//ç”Ÿæˆ2å·æ“ä½œæŒ‡ä»¤ï¼ŒåŠ æ³•
+			else//å¦åˆ™æ˜¯å‡æ³•
+				gen(OPR,0,3);//ç”Ÿæˆ3å·æ“ä½œæŒ‡ä»¤ï¼Œå‡æ³•
 		}
 	}
 	else
 		error(syntaxError);
 }
 
-//Ïî
+//é¡¹
 void items(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(items_FIRST,nowID))
 	{
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Òò×Ó"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("å› å­"));
 		factors(nowNode->subTreeNode.back(),lev);
 		while(match(MUL) || match(DIV))
 		{
-			int op = nowID;//±£´æÔËËã·û
+			int op = nowID;//ä¿å­˜è¿ç®—ç¬¦
 			if(match(MUL))
 				nowNode->subTreeNode.push_back(new syntaxTreeNode("*"));
 			else if(match(DIV))
 				nowNode->subTreeNode.push_back(new syntaxTreeNode("/"));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("Òò×Ó"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("å› å­"));
 			factors(nowNode->subTreeNode.back(),lev);
-			if(op == MUL)//³ËºÅ
-				gen(OPR,0,4);//Éú³É4ºÅÖ¸Áî£¬³Ë·¨
-			else//³ıºÅ
-				gen(OPR,0,5);//Éú³É5ºÅÖ¸Áî£¬³ı·¨
+			if(op == MUL)//ä¹˜å·
+				gen(OPR,0,4);//ç”Ÿæˆ4å·æŒ‡ä»¤ï¼Œä¹˜æ³•
+			else//é™¤å·
+				gen(OPR,0,5);//ç”Ÿæˆ5å·æŒ‡ä»¤ï¼Œé™¤æ³•
 		}
 	}
 	else
 		error(syntaxError);
 }
 
-//Òò×Ó
+//å› å­
 void factors(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(factors_FIRST,nowID))
@@ -542,29 +542,29 @@ void factors(syntaxTreeNode *nowNode,int lev)
 			string name = symTable[lexTable.back().attribute];
 			int pos = position(name,lev);
 			if(pos == -1)
-				error(undefinedVariable);//Î´¶¨ÒåµÄ±äÁ¿
-			if(Table[pos].kind == symConst)//ÊÇ³£Á¿
-				gen(LIT,0,Table[pos].value);//Éú³ÉLITÖ¸Áî
-			else if(Table[pos].kind == symVar)//ÊÇ±äÁ¿
-				gen(LOD,lev - Table[pos].level,Table[pos].address);//Éú³ÉLODÖ¸Áî
-			else//ÊÇ¹ı³Ì
-				error(wrongFactor);//¹ı³ÌÃû×÷ÎªÒò×Ó
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+				error(undefinedVariable);//æœªå®šä¹‰çš„å˜é‡
+			if(Table[pos].kind == symConst)//æ˜¯å¸¸é‡
+				gen(LIT,0,Table[pos].value);//ç”ŸæˆLITæŒ‡ä»¤
+			else if(Table[pos].kind == symVar)//æ˜¯å˜é‡
+				gen(LOD,lev - Table[pos].level,Table[pos].address);//ç”ŸæˆLODæŒ‡ä»¤
+			else//æ˜¯è¿‡ç¨‹
+				error(wrongFactor);//è¿‡ç¨‹åä½œä¸ºå› å­
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 			identifier(nowNode->subTreeNode.back());
 		}
 		else if(inFIRST(unsignedInt_FIRST,nowID))
 		{
-			int entry = lexTable.back().attribute;//³£Á¿±íÈë¿Ú
-			int num = stoi(constTable[entry]);//³£Êı
-			gen(LIT,0,num);//Éú³ÉLITÖ¸Áî
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("ÎŞ·ûºÅÕûÊı"));
+			int entry = lexTable.back().attribute;//å¸¸é‡è¡¨å…¥å£
+			int num = stoi(constTable[entry]);//å¸¸æ•°
+			gen(LIT,0,num);//ç”ŸæˆLITæŒ‡ä»¤
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("æ— ç¬¦å·æ•´æ•°"));
 			unsignedInt(nowNode->subTreeNode.back());
 		}
 		else if(match(LBR))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode("("));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 			expressions(nowNode->subTreeNode.back(),lev);
 			if(match(RBR))
 			{
@@ -579,7 +579,7 @@ void factors(syntaxTreeNode *nowNode,int lev)
 	}
 }
 
-//¹ØÏµÔËËã·û
+//å…³ç³»è¿ç®—ç¬¦
 void relaOp(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(relaOp_FIRST,nowID))
@@ -609,7 +609,7 @@ void relaOp(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//Ìõ¼şÓï¾ä
+//æ¡ä»¶è¯­å¥
 void condStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(condStatement_FIRST,nowID))
@@ -621,7 +621,7 @@ void condStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Ìõ¼ş"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ¡ä»¶"));
 		conditions(nowNode->subTreeNode.back(),lev);
 		if(match(THEN))
 		{
@@ -630,17 +630,17 @@ void condStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		int curcx = cx;//¼ÇÏÂµ±Ç°´úÂë·ÖÅäÖ¸ÕëÎ»ÖÃ
-		gen(JPC,0,0);//Éú³ÉÌõ¼şÌø×ªÖ¸Áî£¬Ìø×ªÎ»ÖÃÔİÊ±Ìî0£¬·ÖÎöÍêÓï¾äºóÔÙÌîĞ´
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Óï¾ä"));
+		int curcx = cx;//è®°ä¸‹å½“å‰ä»£ç åˆ†é…æŒ‡é’ˆä½ç½®
+		gen(JPC,0,0);//ç”Ÿæˆæ¡ä»¶è·³è½¬æŒ‡ä»¤ï¼Œè·³è½¬ä½ç½®æš‚æ—¶å¡«0ï¼Œåˆ†æå®Œè¯­å¥åå†å¡«å†™
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¯­å¥"));
 		statement(nowNode->subTreeNode.back(),lev);
-		code[curcx].a = cx;//ĞŞ¸ÄÌøÔ¾Î»ÖÃ
+		code[curcx].a = cx;//ä¿®æ”¹è·³è·ƒä½ç½®
 	}
 	else
 		error(syntaxError);
 }
 
-//¹ı³Ìµ÷ÓÃÓï¾ä
+//è¿‡ç¨‹è°ƒç”¨è¯­å¥
 void procCallStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(procCallStatement_FIRST,nowID))
@@ -655,18 +655,18 @@ void procCallStatement(syntaxTreeNode *nowNode,int lev)
 		string name = symTable[lexTable.back().attribute];
 		int pos = position(name,lev);
 		if(pos == -1)
-			error(undefinedProcedure);//Î´¶¨ÒåµÄ±êÊ¶·û
+			error(undefinedProcedure);//æœªå®šä¹‰çš„æ ‡è¯†ç¬¦
 		if(Table[pos].kind != symProc)
-			error(notProcedure);//¸Ã±êÊ¶·û²»ÊÇ¹ı³ÌÃû
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+			error(notProcedure);//è¯¥æ ‡è¯†ç¬¦ä¸æ˜¯è¿‡ç¨‹å
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 		identifier(nowNode->subTreeNode.back());
-		gen(CAL,lev - Table[pos].level,Table[pos].address);//Éú³ÉcalÄ¿±ê´úÂë
+		gen(CAL,lev - Table[pos].level,Table[pos].address);//ç”Ÿæˆcalç›®æ ‡ä»£ç 
 	}
 	else
 		error(syntaxError);
 }
 
-//µ±ĞÍÑ­»·Óï¾ä
+//å½“å‹å¾ªç¯è¯­å¥
 void loopStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(loopStatement_FIRST,nowID))
@@ -678,11 +678,11 @@ void loopStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		int curcx1 = cx;//¼ÇÏÂµ±Ç°´úÂë·ÖÅäÎ»ÖÃ£¬ÕâÊÇwhileÑ­»·µÄ¿ªÊ¼Î»ÖÃ
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Ìõ¼ş"));
+		int curcx1 = cx;//è®°ä¸‹å½“å‰ä»£ç åˆ†é…ä½ç½®ï¼Œè¿™æ˜¯whileå¾ªç¯çš„å¼€å§‹ä½ç½®
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ¡ä»¶"));
 		conditions(nowNode->subTreeNode.back(),lev);
-		int curcx2 = cx;//¼ÇÏÂµ±Ç°´úÂë·ÖÅäÎ»ÖÃ£¬ÕâÊÇwhileµÄdoÖĞµÄÓï¾äµÄ¿ªÊ¼Î»ÖÃ
-		gen(JPC,0,0);//Éú³ÉÌõ¼şÌø×ªÖ¸Áî£¬Ìø×ªÎ»ÖÃÔİÊ±Ìî0
+		int curcx2 = cx;//è®°ä¸‹å½“å‰ä»£ç åˆ†é…ä½ç½®ï¼Œè¿™æ˜¯whileçš„doä¸­çš„è¯­å¥çš„å¼€å§‹ä½ç½®
+		gen(JPC,0,0);//ç”Ÿæˆæ¡ä»¶è·³è½¬æŒ‡ä»¤ï¼Œè·³è½¬ä½ç½®æš‚æ—¶å¡«0
 		if(match(DO))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode("do"));
@@ -690,16 +690,16 @@ void loopStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("Óï¾ä"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¯­å¥"));
 		statement(nowNode->subTreeNode.back(),lev);
-		gen(JMP,0,curcx1);//Ñ­»·Ìø×ªµ½curcx1Î»ÖÃ£¬¼´ÔÙ´Î½øĞĞÂß¼­ÅĞ¶Ï
+		gen(JMP,0,curcx1);//å¾ªç¯è·³è½¬åˆ°curcx1ä½ç½®ï¼Œå³å†æ¬¡è¿›è¡Œé€»è¾‘åˆ¤æ–­
 		code[curcx2].a = cx;
 	}
 	else
 		error(syntaxError);
 }
 
-//¶ÁÓï¾ä
+//è¯»è¯­å¥
 void readStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(readStatement_FIRST,nowID))
@@ -721,14 +721,14 @@ void readStatement(syntaxTreeNode *nowNode,int lev)
 		string name = symTable[lexTable.back().attribute];
 		int pos = position(name,lev);
 		if(pos == -1)
-			error(undefinedVariable);//Î´¶¨ÒåµÄ±äÁ¿
+			error(undefinedVariable);//æœªå®šä¹‰çš„å˜é‡
 		if(Table[pos].kind != symVar)
-			error(notVariable);//¸Ã±êÊ¶·û²»ÊÇ±äÁ¿
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+			error(notVariable);//è¯¥æ ‡è¯†ç¬¦ä¸æ˜¯å˜é‡
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 		identifier(nowNode->subTreeNode.back());
-		//Éú³É16ºÅ²Ù×÷Ö¸Áî:´Ó¼üÅÌ¶ÁÈëÊı×Ö
+		//ç”Ÿæˆ16å·æ“ä½œæŒ‡ä»¤:ä»é”®ç›˜è¯»å…¥æ•°å­—
 		gen(OPR,0,16);
-		//Éú³ÉstoÖ¸Áî£¬°Ñ¶ÁÈëµÄÖµ´æÈëÖ¸¶¨±äÁ¿ËùÔÚµÄ¿Õ¼ä
+		//ç”ŸæˆstoæŒ‡ä»¤ï¼ŒæŠŠè¯»å…¥çš„å€¼å­˜å…¥æŒ‡å®šå˜é‡æ‰€åœ¨çš„ç©ºé—´
 		gen(STO,lev - Table[pos].level,Table[pos].address);
 		while(match(COM))
 		{
@@ -737,14 +737,14 @@ void readStatement(syntaxTreeNode *nowNode,int lev)
 			name = symTable[lexTable.back().attribute];
 			pos = position(name,lev);
 			if(pos == -1)
-				error(undefinedVariable);//Î´¶¨ÒåµÄ±äÁ¿
+				error(undefinedVariable);//æœªå®šä¹‰çš„å˜é‡
 			if(Table[pos].kind != symVar)
-				error(notVariable);//¸Ã±êÊ¶·û²»ÊÇ±äÁ¿
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±êÊ¶·û"));
+				error(notVariable);//è¯¥æ ‡è¯†ç¬¦ä¸æ˜¯å˜é‡
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("æ ‡è¯†ç¬¦"));
 			identifier(nowNode->subTreeNode.back());
-			//Éú³É16ºÅ²Ù×÷Ö¸Áî:´Ó¼üÅÌ¶ÁÈëÊı×Ö
+			//ç”Ÿæˆ16å·æ“ä½œæŒ‡ä»¤:ä»é”®ç›˜è¯»å…¥æ•°å­—
 			gen(OPR,0,16);
-			//Éú³ÉstoÖ¸Áî£¬°Ñ¶ÁÈëµÄÖµ´æÈëÖ¸¶¨±äÁ¿ËùÔÚµÄ¿Õ¼ä
+			//ç”ŸæˆstoæŒ‡ä»¤ï¼ŒæŠŠè¯»å…¥çš„å€¼å­˜å…¥æŒ‡å®šå˜é‡æ‰€åœ¨çš„ç©ºé—´
 			gen(STO,lev - Table[pos].level,Table[pos].address);
 		}
 		if(match(RBR))
@@ -759,7 +759,7 @@ void readStatement(syntaxTreeNode *nowNode,int lev)
 		error(syntaxError);
 }
 
-//Ğ´Óï¾ä
+//å†™è¯­å¥
 void writeStatement(syntaxTreeNode *nowNode,int lev)
 {
 	if(inFIRST(writeStatement_FIRST,nowID))
@@ -778,16 +778,16 @@ void writeStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+		nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 		expressions(nowNode->subTreeNode.back(),lev);
-		gen(OPR,0,14);//Éú³É14ºÅÖ¸Áî£¬ÏòÆÁÄ»Êä³ö
+		gen(OPR,0,14);//ç”Ÿæˆ14å·æŒ‡ä»¤ï¼Œå‘å±å¹•è¾“å‡º
 		while(match(COM))
 		{
 			nowNode->subTreeNode.push_back(new syntaxTreeNode(","));
 			advance();
-			nowNode->subTreeNode.push_back(new syntaxTreeNode("±í´ïÊ½"));
+			nowNode->subTreeNode.push_back(new syntaxTreeNode("è¡¨è¾¾å¼"));
 			expressions(nowNode->subTreeNode.back(),lev);
-			gen(OPR,0,14);//Éú³É14ºÅÖ¸Áî£¬ÏòÆÁÄ»Êä³ö
+			gen(OPR,0,14);//ç”Ÿæˆ14å·æŒ‡ä»¤ï¼Œå‘å±å¹•è¾“å‡º
 		}
 		if(match(RBR))
 		{
@@ -796,26 +796,26 @@ void writeStatement(syntaxTreeNode *nowNode,int lev)
 		}
 		else
 			error(syntaxError);
-		gen(OPR,0,15);//Éú³ÉÒ»¸ö15ºÅ²Ù×÷µÄÄ¿±ê´úÂë£¬¹¦ÄÜÊÇÊä³öÒ»¸ö»»ĞĞ
+		gen(OPR,0,15);//ç”Ÿæˆä¸€ä¸ª15å·æ“ä½œçš„ç›®æ ‡ä»£ç ï¼ŒåŠŸèƒ½æ˜¯è¾“å‡ºä¸€ä¸ªæ¢è¡Œ
 	}
 	else
 		error(syntaxError);
 }
 
-//µİ¹éÏÂ½µ×Ó³ÌĞò·¨½øĞĞÓï·¨·ÖÎö,Í¬Ê±½øĞĞ´Ê·¨·ÖÎöºÍÓï·¨·ÖÎö
+//é€’å½’ä¸‹é™å­ç¨‹åºæ³•è¿›è¡Œè¯­æ³•åˆ†æ,åŒæ—¶è¿›è¡Œè¯æ³•åˆ†æå’Œè¯­æ³•åˆ†æ
 void syntaxAnalysis()
 {
-	cout<<"·ÖÎö¿ªÊ¼£º"<<endl;
+	cout<<"åˆ†æå¼€å§‹ï¼š"<<endl;
 	lexInit();
 	syntaxInit();
-	rootNode = new syntaxTreeNode("³ÌĞò");
+	rootNode = new syntaxTreeNode("ç¨‹åº");
 	prog(rootNode,0);
 	if(nowChar == '$')
-		cout<<"´Ê·¨·ÖÎö³É¹¦!"<<endl;
+		cout<<"è¯æ³•åˆ†ææˆåŠŸ!"<<endl;
 	else
 		error(lexError);
 	if(nowID == myEOF)
-		cout<<"Óï·¨·ÖÎö³É¹¦!"<<endl;
+		cout<<"è¯­æ³•åˆ†ææˆåŠŸ!"<<endl;
 	else
 		error(syntaxError);
 	showLexResult(1);
@@ -823,7 +823,7 @@ void syntaxAnalysis()
 	showSyntaxTree();
 	showTable();
 	showCode();
-	cout<<"·ÖÎö½áÊø¡£"<<endl;
+	cout<<"åˆ†æç»“æŸã€‚"<<endl;
 }
 
 #endif //_SYNTAXANALYSIS_
