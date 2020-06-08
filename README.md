@@ -3,4 +3,5 @@ Experiment of compiling principle, compiler of PL / 0 language, including lexica
 
 Author：sdu_cmy
 
-PS：如果中文乱码，请用GBK编码打开
+2020/6/8
+Syntax tree output supplement
