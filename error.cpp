@@ -6,8 +6,7 @@
 void showError()
 {
 	showLexResult();
-	getSyntaxTree(1,rootNode);
-	showSyntaxTree();
+	showSyntaxTree(rootNode,0);
 	showTable();
 	showCode();
 }
