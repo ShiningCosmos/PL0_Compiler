@@ -9,8 +9,8 @@
 
 using namespace std;
 
-#define stackSize 500//Õ»´óĞ¡
-#define MAXSYMLEN 10  //±êÊ¶·û×î´ó³¤¶È
+#define stackSize 500//æ ˆå¤§å°
+#define MAXSYMLEN 10  //æ ‡è¯†ç¬¦æœ€å¤§é•¿åº¦
 
 enum errortype{
 	Error,lexError,symKindError,fileOpenError,syntaxError,stackFull,
@@ -19,11 +19,11 @@ enum errortype{
 };
 void error(errortype type = Error);
 
-const int symConst = 1;	//³£Á¿
-const int symVar = 2;	//±äÁ¿
-const int symProc = 3;	//¹ı³Ì
+const int symConst = 1;	//å¸¸é‡
+const int symVar = 2;	//å˜é‡
+const int symProc = 3;	//è¿‡ç¨‹
 const string KIND[4]={"","CONSTANT","VARIABLE","PROCEDURE"};
-//Ä¿±êÖ¸Áî
+//ç›®æ ‡æŒ‡ä»¤
 const int LIT = 0;
 const int LOD = 1;
 const int STO = 2;
@@ -32,57 +32,57 @@ const int INT = 4;
 const int JMP = 5;
 const int JPC = 6;
 const int OPR = 7;
-//Ä¿±êÖ¸Áî±í
+//ç›®æ ‡æŒ‡ä»¤è¡¨
 const vector<string> ins={"LIT","LOD","STO","CAL","INT","JMP","JPC","OPR"};
 
-// OPRÖ¸ÁîÖĞaµÄÈ¡Öµ¼°º¬Òå
-// 0£º¹ı³Ì·µ»Ø£¬Èç¹ûÊÇÔÚÖ÷³ÌĞò£¬¾ÍÊÇ³ÌĞò½áÊø
-// 1£ºÈ¡·´
-// 2£º¼Ó·¨
-// 3£º¼õ·¨
-// 4£º³Ë·¨
-// 5£º³ı·¨
-// 6£ºÆæÅ¼ÅĞ¶Ï
-// 7£º
-// 8£ºÅĞµÈ
-// 9£ºÅĞ²»µÈ
-// 10£ºÅĞĞ¡
-// 11£ºÅĞ²»Ğ¡ÓÚ
-// 12£ºÅĞ´ó
-// 13£ºÅĞ²»´óÓÚ
-// 14£ºÏòÆÁÄ»Êä³öÕ»¶¥ÄÚÈİ
-// 15£ºÊä³öÒ»¸ö»»ĞĞ
-// 16£º¼üÅÌ¶ÁÈëÊı×Ö
+// OPRæŒ‡ä»¤ä¸­açš„å–å€¼åŠå«ä¹‰
+// 0ï¼šè¿‡ç¨‹è¿”å›ï¼Œå¦‚æœæ˜¯åœ¨ä¸»ç¨‹åºï¼Œå°±æ˜¯ç¨‹åºç»“æŸ
+// 1ï¼šå–å
+// 2ï¼šåŠ æ³•
+// 3ï¼šå‡æ³•
+// 4ï¼šä¹˜æ³•
+// 5ï¼šé™¤æ³•
+// 6ï¼šå¥‡å¶åˆ¤æ–­
+// 7ï¼š
+// 8ï¼šåˆ¤ç­‰
+// 9ï¼šåˆ¤ä¸ç­‰
+// 10ï¼šåˆ¤å°
+// 11ï¼šåˆ¤ä¸å°äº
+// 12ï¼šåˆ¤å¤§
+// 13ï¼šåˆ¤ä¸å¤§äº
+// 14ï¼šå‘å±å¹•è¾“å‡ºæ ˆé¡¶å†…å®¹
+// 15ï¼šè¾“å‡ºä¸€ä¸ªæ¢è¡Œ
+// 16ï¼šé”®ç›˜è¯»å…¥æ•°å­—
 
-//¶şÔªÊ½
+//äºŒå…ƒå¼
 struct binaryWord
 {
-	int category;	//µ¥´ÊÀà±ğ
-	int attribute;	//µ¥´Ê·ûºÅµÄÊôĞÔÖµ£¬¶ÔÓ¦±íÖĞµ¥´Ê·ûºÅµÄÈë¿ÚµØÖ·
-	int line;		//¶¨Î»ÓÃµÄ£¬±¾Éí²»ÊÇ¶şÔªÊ½µÄÊôĞÔ
-	int col;		//¶¨Î»ÓÃµÄ£¬±¾Éí²»ÊÇ¶şÔªÊ½µÄÊôĞÔ
+	int category;	//å•è¯ç±»åˆ«
+	int attribute;	//å•è¯ç¬¦å·çš„å±æ€§å€¼ï¼Œå¯¹åº”è¡¨ä¸­å•è¯ç¬¦å·çš„å…¥å£åœ°å€
+	int line;		//å®šä½ç”¨çš„ï¼Œæœ¬èº«ä¸æ˜¯äºŒå…ƒå¼çš„å±æ€§
+	int col;		//å®šä½ç”¨çš„ï¼Œæœ¬èº«ä¸æ˜¯äºŒå…ƒå¼çš„å±æ€§
 	binaryWord() {}
 	binaryWord(int cg):category(cg) {}
 	binaryWord(int cg,int ln,int cl):category(cg),line(ln),col(cl) {}
 	binaryWord(int cg,int ab,int ln,int cl):category(cg),attribute(ab),line(ln),col(cl) {}
 };
 
-//Óï·¨Ê÷½Úµã
+//è¯­æ³•æ ‘èŠ‚ç‚¹
 struct syntaxTreeNode
 {
-	string wordStr;	//½ÚµãÃû³Æ
-	vector<syntaxTreeNode*> subTreeNode; //×Ó½Úµã
+	string wordStr;	//èŠ‚ç‚¹åç§°
+	vector<syntaxTreeNode*> subTreeNode; //å­èŠ‚ç‚¹
 	syntaxTreeNode(string wstr):wordStr(wstr) {}
 };
 
-//·ûºÅ±íÏî
+//ç¬¦å·è¡¨é¡¹
 struct symbItem
 {
-	string name;//Ãû×Ö£¬±êÊ¶·ûÃû
-	int kind;//ÀàĞÍ£¬³£Á¿¡¢±äÁ¿¡¢¹ı³ÌÈıÕßÖ®Ò»
-	int value;//³£Á¿µÄÖµ
-	int level;//²ã
-	int address;//²ãÖĞµÄÏà¶ÔµØÖ·
+	string name;//åå­—ï¼Œæ ‡è¯†ç¬¦å
+	int kind;//ç±»å‹ï¼Œå¸¸é‡ã€å˜é‡ã€è¿‡ç¨‹ä¸‰è€…ä¹‹ä¸€
+	int value;//å¸¸é‡çš„å€¼
+	int level;//å±‚
+	int address;//å±‚ä¸­çš„ç›¸å¯¹åœ°å€
 	int size;
 	symbItem() {}
 	symbItem(string na,int kd,int lev,int va = 0):name(na),kind(kd),level(lev)
@@ -96,35 +96,35 @@ struct symbItem
 	}
 };
 
-//Ö¸Áî
+//æŒ‡ä»¤
 struct instruction
 {
-	int f;//¹¦ÄÜÂë
-	int l;//²ã²î
-	int a;//Î»ÒÆÁ¿
+	int f;//åŠŸèƒ½ç 
+	int l;//å±‚å·®
+	int a;//ä½ç§»é‡
 	instruction() {}
 	instruction(int ff,int ll,int aa):f(ff),l(ll),a(aa) {}
 };
 
-//ĞèÒª·ÖÎöµÄ´úÂëÎÄ¼şÃû
+//éœ€è¦åˆ†æçš„ä»£ç æ–‡ä»¶å
 //const string fileName = "PL0_code/PL0_code2.in";
 const string fileName = "PL0_code/demo.txt";
 //const string fileName = "PL0_code/demoModified.txt";
 //const string fileName = "PL0_code/test.txt";
-//¹Ø¼ü×Ö¡¢ÔËËã·û¡¢½ç·û±í
+//å…³é”®å­—ã€è¿ç®—ç¬¦ã€ç•Œç¬¦è¡¨
 const vector<string> keyword = {"const","var","procedure","begin","end",
 					"odd","if","then","call","while","do","read","write"};
 const vector<string> operators = {"+","-","*","/","=","#","<","<=",">",">=",":=","<>"};
 const vector<string> boundSymb = {".",",",";","(",")"};
-string inputBuf;	//´úÂë»º³åÇø
-//¹Ø¼ü×ÖÒ»×ÖÒ»Âë
-//ÔËËã·ûÒ»·ûÒ»Âë
-//½ç·ûÒ»·ûÒ»Âë
-//±êÊ¶·ûÒ»Àà
-//³£Á¿Ò»Àà
+string inputBuf;	//ä»£ç ç¼“å†²åŒº
+//å…³é”®å­—ä¸€å­—ä¸€ç 
+//è¿ç®—ç¬¦ä¸€ç¬¦ä¸€ç 
+//ç•Œç¬¦ä¸€ç¬¦ä¸€ç 
+//æ ‡è¯†ç¬¦ä¸€ç±»
+//å¸¸é‡ä¸€ç±»
 
-//¹Ø¼ü×Ö
-const int KWBASE=0;	//¹Ø¼ü×ÖµÄ»ùµã
+//å…³é”®å­—
+const int KWBASE=0;	//å…³é”®å­—çš„åŸºç‚¹
 const int CNT=1;	//const
 const int VAR=2;	//var
 const int PROC=3;	//procdure
@@ -133,13 +133,13 @@ const int END=5;	//end
 const int ODD=6;	//odd
 const int IF=7;		//if
 const int THEN=8;	//then
-const int CL=9;	//call
+const int CL=9;		//call
 const int WHI=10;	//while
 const int DO=11;	//do
 const int REA=12;	//read
 const int WRI=13;	//write
-//ÔËËã·û
-const int OPBASE=20;//ÔËËã·ûµÄ»ùµã
+//è¿ç®—ç¬¦
+const int OPBASE=20;//è¿ç®—ç¬¦çš„åŸºç‚¹
 const int ADD=21;	//"+"
 const int SUB=22;	//"-"
 const int MUL=23;	//"*"
@@ -152,21 +152,21 @@ const int LAR=29;	//">"
 const int LARE=30;	//">="
 const int ASSI=31;	//":="
 const int NEQU2=32;	//"<>"
-//½ç·û
-const int BSBASE=40;//½ç·ûµÄ»ùµã
+//ç•Œç¬¦
+const int BSBASE=40;//ç•Œç¬¦çš„åŸºç‚¹
 const int POI=41;	//"."
 const int COM=42;	//","
 const int SEM=43;	//";"
 const int LBR=44;	//"("
 const int RBR=45;	//")"
-//±êÊ¶·û
+//æ ‡è¯†ç¬¦
 const int SYM=50;
-//³£Á¿
+//å¸¸é‡
 const int CONS=60;
-//ÎÄ¼ş½áÊø·û
+//æ–‡ä»¶ç»“æŸç¬¦
 const int myEOF=-1;
 
-//¸÷·ÇÖÕ½á·ûµÄFIRST¼¯
+//å„éç»ˆç»“ç¬¦çš„FIRSTé›†
 vector<int> prog_FIRST = {CNT,VAR,PROC,SYM,IF,WHI,CL,REA,WRI,BEG};
 vector<int> subProg_FIRST = {CNT,VAR,PROC,SYM,IF,WHI,CL,REA,WRI,BEG};
 vector<int> constDscpSection_FIRST = {CNT};
@@ -191,31 +191,31 @@ vector<int> procCallStatement_FIRST = {CL};
 vector<int> loopStatement_FIRST = {WHI};
 vector<int> readStatement_FIRST = {REA};
 vector<int> writeStatement_FIRST = {WRI};
-//·Ö³ÌĞò¡¢Óï¾äµÄFIRSTºÍFOLLOW²»Ïà½»
+//åˆ†ç¨‹åºã€è¯­å¥çš„FIRSTå’ŒFOLLOWä¸ç›¸äº¤
 vector<int> subProg_FOLLOW = {POI,SEM};
 vector<int> statement_FOLLOW = {POI,SEM,END};
 
-//ÊÇ·ñÔÚ¶ÔÓ¦µÄFIRST¼¯ÖĞ
+//æ˜¯å¦åœ¨å¯¹åº”çš„FIRSTé›†ä¸­
 bool inFIRST(vector<int> FIRST,int id)
 {
 	return find(FIRST.begin(),FIRST.end(),id) != FIRST.end();
 }
 
-//ÊÇ·ñÔÚ¶ÔÓ¦µÄFOLLOW¼¯ÖĞ
+//æ˜¯å¦åœ¨å¯¹åº”çš„FOLLOWé›†ä¸­
 bool inFOLLOW(vector<int> FOLLOW,int id)
 {
 	return find(FOLLOW.begin(),FOLLOW.end(),id) != FOLLOW.end();
 }
 
 //lexAnalysis
-int bufPos;			//ÕıÔÚ´¦ÀíµÄÎ»ÖÃ
-char nowChar;		//ÕıÔÚ´¦ÀíµÄ×Ö·û
-string strToken;	//ÕıÔÚ´¦ÀíµÄ×Ö·û´®
-int line;			//ÕıÔÚ´¦ÀíµÄĞĞÊı
-int col;			//ÕıÔÚ´¦ÀíµÄÁĞÊı
-vector<string> symTable;	//±êÊ¶·û±í
-vector<string> constTable;	//³£Á¿±í
-vector<binaryWord> lexTable;//´Ê·¨·ÖÎö½á¹û±í
+int bufPos;			//æ­£åœ¨å¤„ç†çš„ä½ç½®
+char nowChar;		//æ­£åœ¨å¤„ç†çš„å­—ç¬¦
+string strToken;	//æ­£åœ¨å¤„ç†çš„å­—ç¬¦ä¸²
+int line;			//æ­£åœ¨å¤„ç†çš„è¡Œæ•°
+int col;			//æ­£åœ¨å¤„ç†çš„åˆ—æ•°
+vector<string> symTable;	//æ ‡è¯†ç¬¦è¡¨
+vector<string> constTable;	//å¸¸é‡è¡¨
+vector<binaryWord> lexTable;//è¯æ³•åˆ†æç»“æœè¡¨
 
 void lexInit();
 void getChar();
@@ -232,14 +232,11 @@ binaryWord getSym();
 void lexAnalysis();
 
 //syntaxAnalysis
-int lexTablePos;//ÏÖÔÚ·ÖÎöµÄµ¥´ÊÔÚ´Ê·¨·ÖÎö½á¹û±íÖĞµÄÎ»ÖÃ
-int nowID;//ÏÖÔÚ·ÖÎöµÄµ¥´ÊµÄÀà±ğ
-syntaxTreeNode *rootNode;//Óï·¨Ê÷¸ù½Úµã
-vector<vector<string>> syntaxTree;
+int lexTablePos;//ç°åœ¨åˆ†æçš„å•è¯åœ¨è¯æ³•åˆ†æç»“æœè¡¨ä¸­çš„ä½ç½®
+int nowID;//ç°åœ¨åˆ†æçš„å•è¯çš„ç±»åˆ«
+syntaxTreeNode *rootNode;//è¯­æ³•æ ‘æ ¹èŠ‚ç‚¹
 
-void getSyntaxTree(int level,syntaxTreeNode *nowNode);
-void showSyntaxTree(int level,syntaxTreeNode *nowNode);
-void showSyntaxTree();
+void showSyntaxTree(syntaxTreeNode* root, int level);
 void advance();
 void syntaxInit();
 bool match(int id);
@@ -272,16 +269,16 @@ void letters(syntaxTreeNode *nowNode,int lev = 0);
 void numbers(syntaxTreeNode *nowNode,int lev = 0);
 
 //codeGenAndExec
-int dx = 0;//µØÖ·Ö¸Õë
-int tx = 0;//·ûºÅ±íÖ¸Õë
-int cx = 0;//´úÂë±íÖ¸Õë
-int P = 0;//³ÌĞòµØÖ·¼Ä´æÆ÷£¬codeµÄÏÂ±ê
-int T = 0;//Õ»¶¥¼Ä´æÆ÷£¬SµÄÏÂ±ê
-int B = 0;//»ùµØÖ·¼Ä´æÆ÷£¬Êı¾İÇøµÄ»ùµØÖ·
-instruction I;//Ö¸Áî¼Ä´æÆ÷£¬µ±Ç°ÕıÔÚ½âÊÍµÄÒ»ÌõÄ¿±êÖ¸Áî
-int S[stackSize];//ÔËĞĞÊ±Êı¾İÇø
-vector<symbItem> Table;//·ûºÅ±í
-vector<instruction> code;//Ä¿±ê´úÂë±í
+int dx = 0;//åœ°å€æŒ‡é’ˆ
+int tx = 0;//ç¬¦å·è¡¨æŒ‡é’ˆ
+int cx = 0;//ä»£ç è¡¨æŒ‡é’ˆ
+int P = 0;//ç¨‹åºåœ°å€å¯„å­˜å™¨ï¼Œcodeçš„ä¸‹æ ‡
+int T = 0;//æ ˆé¡¶å¯„å­˜å™¨ï¼ŒSçš„ä¸‹æ ‡
+int B = 0;//åŸºåœ°å€å¯„å­˜å™¨ï¼Œæ•°æ®åŒºçš„åŸºåœ°å€
+instruction I;//æŒ‡ä»¤å¯„å­˜å™¨ï¼Œå½“å‰æ­£åœ¨è§£é‡Šçš„ä¸€æ¡ç›®æ ‡æŒ‡ä»¤
+int S[stackSize];//è¿è¡Œæ—¶æ•°æ®åŒº
+vector<symbItem> Table;//ç¬¦å·è¡¨
+vector<instruction> code;//ç›®æ ‡ä»£ç è¡¨
 
 void enter(vector<symbItem> stable,string name,int kind,int lev,int value = 0);
 int findSameLevel(string name,int lev);
@@ -294,7 +291,7 @@ int base(int l);
 void showS();
 void interpret();
 
-//¶ÁÈ¡´úÂëÎÄ¼ş£¬·ÅÈë»º³åÇøinputBufÖĞ
+//è¯»å–ä»£ç æ–‡ä»¶ï¼Œæ”¾å…¥ç¼“å†²åŒºinputBufä¸­
 void readSourceCode()
 {
 	string tempStr;
@@ -306,12 +303,12 @@ void readSourceCode()
 		inputBuf += tempStr+"\n";
 }
 
-//Êä³öinputBuf
+//è¾“å‡ºinputBuf
 void showSourceCode()
 {
-	cout<<"Ô´´úÂë£º"<<endl;
+	cout<<"æºä»£ç ï¼š"<<endl;
 	cout<<inputBuf<<endl;
-	cout<<"Ô´´úÂë²¿·Ö½áÊø¡£"<<endl;
+	cout<<"æºä»£ç éƒ¨åˆ†ç»“æŸã€‚"<<endl;
 }
 
 #endif //_COMMON_H_
