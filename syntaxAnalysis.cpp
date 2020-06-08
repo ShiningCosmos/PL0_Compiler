@@ -3,27 +3,29 @@
 
 #include "common.h"
 
-//获得语法树,递归程序
-void getSyntaxTree(int level,syntaxTreeNode *nowNode)
-{
-	if(level>syntaxTree.size())
-	{
-		vector<string> v;
-		syntaxTree.push_back(v);
-	}
-	syntaxTree[level-1].push_back(nowNode->wordStr);
-	for(int k=0;k<nowNode->subTreeNode.size();k++)
-		getSyntaxTree(level+1,nowNode->subTreeNode[k]);
-}
+// 一个数组，数组长度不低于树的高度，为了简便起见，这里假设是100
+int vec_left[100] = {0};
 
-void showSyntaxTree()
+// 显示树的函数，只要调用showSyntaxTree(rootNode, 0)即可
+void showSyntaxTree(syntaxTreeNode* root, int level)
 {
-	for(int i=0;i<syntaxTree.size();i++)
+	if(level > 0)
 	{
-		cout<<i+1<<"层："<<endl;
-		for(int j=0;j<syntaxTree[i].size();j++)
-			cout<<syntaxTree[i][j]<<" ";
-		cout<<endl;
+		for(int i = 0; i < level - 1; ++i)
+		{
+			printf(vec_left[i] ? "│   " : "    ");
+		}
+		printf(vec_left[level-1] ? "├── " : "└── ");
+	}
+
+	cout<<root->wordStr<<endl;
+	for(int i=0;i<root->subTreeNode.size();i++)
+	{
+		if(i==0)
+			vec_left[level] = 1;
+		if(i==root->subTreeNode.size()-1)
+			vec_left[level] = 0;
+		showSyntaxTree(root->subTreeNode[i], level + 1);
 	}
 }
 
@@ -821,8 +823,8 @@ void syntaxAnalysis()
 	else
 		error(syntaxError);
 	showLexResult(1);
-	getSyntaxTree(1,rootNode);
-	showSyntaxTree();
+	cout<<"语法树："<<endl;
+	showSyntaxTree(rootNode,0);
 	showTable();
 	showCode();
 	cout<<"分析结束。"<<endl;
